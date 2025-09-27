@@ -1,25 +1,23 @@
 #include "nqueens.h"
 
-// Solve the N-Queens problem recursively
+// Solve the N–Queens problem recursively
 bool solve_nqueens_util(int board[], int col, int n) {
     if (col >= n) {
         print_board(board, n); // Print the current solution
-        return true; 
+        return false;          // Changed from 'true' → 'false' so it doesn’t stop
     }
 
     for (int i = 0; i < n; i++) {
         if (is_safe(board, i, col, n)) {
             board[col] = i; // Place the queen
-            if (solve_nqueens_util(board, col + 1, n)) {
-                return true; // Stop if only one solution is desired
-            }
+            solve_nqueens_util(board, col + 1, n); // Removed the "if(...) return true;"
             board[col] = -1; // Backtrack
         }
     }
-    return false; // No solution
+    return false; // End of recursion path, keep searching
 }
 
-// Wrapper function to solve N-Queens
+// Wrapper function to solve N–Queens
 void solve_nqueens(int n) {
     int *board = (int *)malloc(n * sizeof(int));
     for (int i = 0; i < n; i++)
@@ -30,3 +28,4 @@ void solve_nqueens(int n) {
 
     free(board);
 }
+
